@@ -7,6 +7,6 @@ namespace BookLibrary.DAL.Repositories
     public interface IQueryRepository<TEntity>
     {
         IQueryable<TEntity> GetQueryable();
-        Task<IQueryable<TEntity>> SearchAsync(IEnumerable<string> strs);
+        Task<IQueryable<TEntity>> SearchAsync(string str);
     }
 }
