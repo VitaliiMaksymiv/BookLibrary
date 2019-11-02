@@ -15,11 +15,11 @@ namespace BookLibrary.DAL.Models.EntityConfiguration
 
             builder.Property(e => e.CreatedDate)
                 .HasColumnType("datetime")
-                .HasDefaultValueSql("(getdate())");
+                .HasDefaultValueSql("(date('now'))");
 
             builder.Property(e => e.UpdatedDate)
                 .HasColumnType("datetime")
-                .HasDefaultValueSql("(getdate())");
+                .HasDefaultValueSql("(date('now'))");
 
             builder.Property(e => e.Name)
                 .IsRequired()

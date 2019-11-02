@@ -1,4 +1,6 @@
-﻿using BookLibrary.BLL.Factory;
+﻿using AutoMapper;
+using BookLibrary.BLL.Factory;
+using BookLibrary.BLL.Mappings;
 using BookLibrary.BLL.Services.Implemented;
 using BookLibrary.BLL.Services.Interfaces;
 using BookLibrary.DAL;
@@ -13,7 +15,7 @@ namespace BookLibrary.BLL
         {
             services.ConfigureDAL(configuration);
             services.ConfigureServices();
-
+            services.ConfigureAutoMapper();
             services.AddScoped<IServiceFactory, ServiceFactory>();
         }
 
@@ -21,6 +23,15 @@ namespace BookLibrary.BLL
         {
             services.AddScoped<IAuthorService, AuthorService>();
             services.AddScoped<IBookService, BookService>();
+        }
+
+        private static void ConfigureAutoMapper(this IServiceCollection services)
+        {
+            services.AddSingleton(new MapperConfiguration(c =>
+            {
+                c.AddProfile(new AuthorProfile());
+                c.AddProfile(new BookProfile());
+            }).CreateMapper());
         }
     }
 }
