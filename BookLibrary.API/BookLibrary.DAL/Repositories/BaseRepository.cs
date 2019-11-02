@@ -77,15 +77,9 @@ namespace BookLibrary.DAL.Repositories
             return entity;
         }
 
-        protected virtual DbSet<TEntity> Entities
-        {
-            get { return _entities; }
-        }
+        protected virtual DbSet<TEntity> Entities => _entities;
 
-        protected virtual IQueryable<TEntity> ComplexEntities
-        {
-            get { return Entities.AsNoTracking(); }
-        }
+        protected virtual IQueryable<TEntity> ComplexEntities => Entities.AsNoTracking();
 
         /// <summary>
         /// By default no items will be returned, so return false.
@@ -97,14 +91,11 @@ namespace BookLibrary.DAL.Repositories
             return entity => false;
         }
 
-        public virtual Task<IQueryable<TEntity>> SearchAsync(IEnumerable<string> strs)
+        public virtual Task<IQueryable<TEntity>> SearchAsync(string keyword)
         {
             var predicate = PredicateBuilder.New<TEntity>();
 
-            foreach (string keyword in strs)
-            {
-                predicate = predicate.And(MakeFilteringExpression(keyword));
-            }
+            predicate = predicate.And(MakeFilteringExpression(keyword));
 
             return Task.FromResult(
                 GetQueryable()
