@@ -5,7 +5,7 @@ using BookLibrary.DAL.Models.Entities.Abstraction;
 
 namespace BookLibrary.DAL.Models.Entities
 {
-    public class Book : IAuditableEntity
+    public class Book : IBaseEntity, IAuditableEntity
     {
         public Book()
         {

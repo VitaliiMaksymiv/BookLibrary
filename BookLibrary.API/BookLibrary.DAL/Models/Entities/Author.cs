@@ -4,7 +4,7 @@ using BookLibrary.DAL.Models.Entities.Abstraction;
 
 namespace BookLibrary.DAL.Models.Entities
 {
-    public class Author : IAuditableEntity
+    public class Author : IBaseEntity, IAuditableEntity
     {
         public Author()
         {
