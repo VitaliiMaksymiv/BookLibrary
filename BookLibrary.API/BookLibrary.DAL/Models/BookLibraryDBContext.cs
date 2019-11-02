@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using BookLibrary.DAL.Models.Entities;
 using BookLibrary.DAL.Models.Entities.Abstraction;
+using BookLibrary.DAL.Models.EntityConfiguration;
 using Microsoft.Data.Sqlite;
 
 namespace BookLibrary.DAL.Models
@@ -41,6 +42,12 @@ namespace BookLibrary.DAL.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            #region Configuration
+            modelBuilder.ApplyConfiguration(new AuthorConfiguration());
+            modelBuilder.ApplyConfiguration(new BookConfiguration());
+            modelBuilder.ApplyConfiguration(new AuthorBookConfiguration());
+            #endregion
         }
     }
 
