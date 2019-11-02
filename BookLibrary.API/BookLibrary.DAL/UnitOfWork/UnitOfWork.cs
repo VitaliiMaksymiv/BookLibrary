@@ -17,18 +17,21 @@ namespace BookLibrary.DAL.UnitOfWork
         private IBookRepository _bookRepository;
 
         public UnitOfWork(BookLibraryDbContext context,
-                          IServiceProvider serviceProvider)
+            IServiceProvider serviceProvider)
         {
             _context = context;
             _serviceProvider = serviceProvider;
         }
 
-        public IAuthorRepository AuthorRepository => _authorRepository ?? (_authorRepository = _serviceProvider.GetService<IAuthorRepository>());
+        public IAuthorRepository AuthorRepository =>
+            _authorRepository ?? (_authorRepository = _serviceProvider.GetService<IAuthorRepository>());
 
-        public IBookRepository BookRepository => _bookRepository ?? (_bookRepository = _serviceProvider.GetService<IBookRepository>());
+        public IBookRepository BookRepository =>
+            _bookRepository ?? (_bookRepository = _serviceProvider.GetService<IBookRepository>());
 
         public Task<int> SaveAsync()
         {
             return _context.SaveChangesAsync();
         }
     }
+}
