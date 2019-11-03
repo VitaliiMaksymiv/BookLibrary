@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using BookLibrary.BLL.Paginating;
 
 namespace BookLibrary.BLL.Services
 {
@@ -18,7 +19,7 @@ namespace BookLibrary.BLL.Services
         /// <param name="offset">Amount to skip</param>
         /// <param name="amount">Amount to take</param>
         /// <returns>Entities</returns>
-        Task<IEnumerable<TEntityDTO>> GetRangeAsync(uint offset, uint amount);
+        Task<IEnumerable<TEntityDTO>> GetPageAsync(SampleFilterModel sampleFilterModel);
 
         /// Add methods to service
         /// <summary>
@@ -41,12 +42,5 @@ namespace BookLibrary.BLL.Services
         /// <param name="id">Entity id</param>
         /// <returns>void</returns>
         Task DeleteAsync(int id);
-
-        /// <summary>
-        /// Searches for matches
-        /// </summary>
-        /// <param name="search">String to search</param>
-        /// <returns>All matches</returns>
-        Task<IEnumerable<TEntityDTO>> SearchAsync(string search);
     }
 }

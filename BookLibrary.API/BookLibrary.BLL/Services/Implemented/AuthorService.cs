@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using BookLibrary.BLL.DTOs;
+using BookLibrary.BLL.Paginating;
 using BookLibrary.BLL.Services.Interfaces;
 using BookLibrary.DAL.Models.Entities;
 using BookLibrary.DAL.UnitOfWork;
-using Microsoft.EntityFrameworkCore;
 
 namespace BookLibrary.BLL.Services.Implemented
 {
@@ -26,17 +28,15 @@ namespace BookLibrary.BLL.Services.Implemented
             return _mapper.Map<AuthorDTO>(await _unitOfWork.AuthorRepository.GetByIdAsync(id));
         }
 
-        public async Task<IEnumerable<AuthorDTO>> GetRangeAsync(uint offset, uint amount)
+        public async Task<IEnumerable<AuthorDTO>> GetPageAsync(SampleFilterModel filter)
         {
-            var entities = await _unitOfWork.AuthorRepository.GetRangeAsync(offset, amount);
-            return _mapper.Map<IEnumerable<AuthorDTO>>(entities);
-        }
+            var entities = await _unitOfWork.AuthorRepository.GetAllAsync(
+                    author => author.Name.StartsWith(filter.SearchQuery ?? String.Empty, StringComparison.InvariantCultureIgnoreCase));
+                
+            var entitiesOnPage = entities.Skip((int)((filter.Page - 1) * filter.PageSize))
+                .Take((int)filter.PageSize);
 
-        public async Task<IEnumerable<AuthorDTO>> SearchAsync(string search)
-        {
-            var Authors = await _unitOfWork.AuthorRepository.SearchAsync(search);
-
-            return _mapper.Map<IEnumerable<AuthorDTO>>(await Authors.ToListAsync());
+            return _mapper.Map<IEnumerable<AuthorDTO>>(entitiesOnPage);
         }
 
         public async Task<AuthorDTO> CreateAsync(AuthorDTO dto)

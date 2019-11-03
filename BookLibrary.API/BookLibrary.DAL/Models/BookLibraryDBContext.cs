@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using BookLibrary.DAL.Models.Entities;
 using BookLibrary.DAL.Models.Entities.Abstraction;
 using BookLibrary.DAL.Models.EntityConfiguration;
-using Microsoft.Data.Sqlite;
 
 namespace BookLibrary.DAL.Models
 {
