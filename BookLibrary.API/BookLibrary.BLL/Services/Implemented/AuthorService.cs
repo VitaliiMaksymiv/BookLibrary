@@ -30,9 +30,10 @@ namespace BookLibrary.BLL.Services.Implemented
 
         public async Task<IEnumerable<AuthorDTO>> GetPageAsync(SampleFilterModel filter)
         {
+            var search = filter.SearchQuery ?? String.Empty;
             var entities = await _unitOfWork.AuthorRepository.GetAllAsync(
-                    author => author.Name.StartsWith(filter.SearchQuery ?? String.Empty, StringComparison.InvariantCultureIgnoreCase));
-                
+                item => (item.Name.ToUpper().Contains(search.ToUpper())));
+
             var entitiesOnPage = entities.Skip((int)((filter.Page - 1) * filter.PageSize))
                 .Take((int)filter.PageSize);
 
