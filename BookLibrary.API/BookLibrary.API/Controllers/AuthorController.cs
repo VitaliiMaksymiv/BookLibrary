@@ -61,6 +61,12 @@ namespace BookLibrary.API.Controllers
             return Json(await _authorService.UpdateAsync(authorDTO));
         }
 
+        [HttpPut("{id}/attachBook")]
+        public async Task<IActionResult> AttachBook(int id, [FromQuery] int bookId)
+        {
+            return Json(await _authorService.AttachBook(id, bookId));
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

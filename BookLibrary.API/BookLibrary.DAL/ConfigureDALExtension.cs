@@ -19,7 +19,6 @@ namespace BookLibrary.DAL
             services.ConfigureDbContext(configuration);
 
             services.ConfigureRepositories();
-            services.ConfigureQueryRepositories();
 
             services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
         }
@@ -31,6 +30,7 @@ namespace BookLibrary.DAL
             void ConfigureConnection(DbContextOptionsBuilder options)
             {
                 options.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
+                options.EnableSensitiveDataLogging();
             }
 
             services.AddDbContext<BookLibraryDbContext>(ConfigureConnection);
@@ -40,12 +40,6 @@ namespace BookLibrary.DAL
         {
             services.AddScoped<IAuthorRepository, AuthorRepository>();
             services.AddScoped<IBookRepository, BookRepository>();
-        }
-
-        private static void ConfigureQueryRepositories(this IServiceCollection services)
-        {
-            services.AddScoped<IQueryRepository<Author>, AuthorRepository>();
-            services.AddScoped<IQueryRepository<Book>, BookRepository>();
         }
     }
 }

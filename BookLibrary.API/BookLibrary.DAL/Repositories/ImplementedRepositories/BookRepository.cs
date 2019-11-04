@@ -12,7 +12,7 @@ namespace BookLibrary.DAL.Repositories.ImplementedRepositories
         {
         }
 
-        protected override IQueryable<Book> ComplexEntities => Entities.
+        protected override IQueryable<Book> ComplexEntities => Entities.AsNoTracking().
             Include(b => b.AuthorBooks).
             ThenInclude(b => b.Author).
             OrderByDescending(b => b.UpdatedDate).ThenByDescending(b => b.CreatedDate);

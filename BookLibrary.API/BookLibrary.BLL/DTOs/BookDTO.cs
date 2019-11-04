@@ -1,4 +1,6 @@
-﻿namespace BookLibrary.BLL.DTOs
+﻿using System.Collections.Generic;
+
+namespace BookLibrary.BLL.DTOs
 {
     public class BookDTO
     {
@@ -7,5 +9,6 @@
         public string Description { get; set; }
         public int Year { get; set; }
         public int PagesCount { get; set; }
+        public ICollection<AuthorDTO> Authors { get; set; }
     }
 }

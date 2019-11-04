@@ -52,7 +52,8 @@ namespace BookLibrary.BLL.Services.Implemented
         public async Task<AuthorDTO> UpdateAsync(AuthorDTO dto)
         {
             var model = _mapper.Map<Author>(dto);
-
+            var originalAuthor = await _unitOfWork.AuthorRepository.GetByIdAsync((int) dto.Id);
+            model.CreatedDate = originalAuthor.CreatedDate;
             _unitOfWork.AuthorRepository.Update(model);
             await _unitOfWork.SaveAsync();
             return _mapper.Map<AuthorDTO>(model);
@@ -62,6 +63,14 @@ namespace BookLibrary.BLL.Services.Implemented
         {
             await _unitOfWork.AuthorRepository.RemoveAsync(id);
             await _unitOfWork.SaveAsync();
+        }
+
+        public async Task<AuthorDTO> AttachBook(int authorId,int bookId)
+        {
+            await _unitOfWork.AuthorRepository.AttachBook(authorId, bookId);
+            await _unitOfWork.SaveAsync();
+            var updatedAuthor = await _unitOfWork.AuthorRepository.GetByIdAsync(authorId);
+            return _mapper.Map<AuthorDTO>(updatedAuthor);
         }
     }
 }

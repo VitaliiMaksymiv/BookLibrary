@@ -32,7 +32,7 @@ namespace BookLibrary.BLL.Services.Implemented
         {
             var search = filter.SearchQuery ?? String.Empty;
             var entities = await  _unitOfWork.BookRepository.GetAllAsync(
-                item => (item.Name.ToUpper().Contains(search.ToUpper())));
+                item => (item.AuthorBooks.Any(a=>a.Author.Name.ToUpper().Contains(search.ToUpper()))));
 
             var entitiesOnPage = entities.Skip((int) ((filter.Page-1) * filter.PageSize))
                 .Take((int) filter.PageSize);
@@ -53,7 +53,8 @@ namespace BookLibrary.BLL.Services.Implemented
         public async Task<BookDTO> UpdateAsync(BookDTO dto)
         {
             var model = _mapper.Map<Book>(dto);
-
+            var originalBook = await _unitOfWork.BookRepository.GetByIdAsync((int)dto.Id);
+            model.CreatedDate = originalBook.CreatedDate;
             _unitOfWork.BookRepository.Update(model);
             await _unitOfWork.SaveAsync();
             return _mapper.Map<BookDTO>(model);
